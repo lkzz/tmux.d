@@ -23,3 +23,6 @@ git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 
 echo "Step4: source tpm plugin"
 tmux source $HOME/.tmux.conf
+
+echo "Step5: install plugins"
+~/.tmux/plugins/tpm/bin/install_plugins
