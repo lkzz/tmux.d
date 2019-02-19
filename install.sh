@@ -12,17 +12,19 @@ lnif() {
 
 echo "Step1: backing up current tmux config"
 today=`date +%Y%m%d`
-for i in $HOME/.tmux.conf; do [ -e $i ] && [ ! -L $i ] && mv $i $i.$today; done
+for i in ~/.tmux.conf; do [ -e $i ] && [ ! -L $i ] && mv $i $i.$today; done
 
 echo "Step2: setting up symlinks"
-lnif $CURRENT_DIR/tmux.conf $HOME/.tmux.conf
+lnif $CURRENT_DIR/tmux.conf ~/.tmux.conf
 
-echo "Step3: git clone plugin:tpm"
-rm -rf $HOME/.tmux/plugins
-git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
+echo "Step3: install plugin manager"
+rm -rf ~/.tmux/plugins
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-echo "Step4: source tpm plugin"
-tmux source $HOME/.tmux.conf
-
-echo "Step5: install plugins"
+echo "Step4: install plugins"
+export TMUX_PLUGIN_MANAGER_PATH="~/.tmux/plugins"
 ~/.tmux/plugins/tpm/bin/install_plugins
+export TMUX_PLUGIN_MANAGER_PATH=""
+
+echo "Step5: brew install reattach-to-user-namespace"
+brew install reattach-to-user-namespace
